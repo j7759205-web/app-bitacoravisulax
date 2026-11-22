@@ -10,14 +10,20 @@ const previo = document.getElementById("vistaPrevia");
 const mensaje = document.getElementById("mensaje");
 const btnGuardar = document.getElementById("btnGuardar");
 
-// Login
+// Login y panel de administración
 const seccionLogin = document.getElementById("seccionLogin");
-const seccionApp = document.getElementById("seccionApp");
+const seccionAdmin = document.getElementById("seccionAdmin");
 const loginCorreo = document.getElementById("loginCorreo");
 const loginClave = document.getElementById("loginClave");
 const btnLogin = document.getElementById("btnLogin");
+const btnCancelarLogin = document.getElementById("btnCancelarLogin");
+const btnAcceso = document.getElementById("btnAcceso");
 const btnSalir = document.getElementById("btnSalir");
 const usuarioActual = document.getElementById("usuarioActual");
+
+// ¿Hay una sesión iniciada? El público ve la bitácora (false);
+// solo con sesión (true) aparecen el formulario y los botones de eliminar.
+let haySesion = false;
 
 
 // ======================================================
@@ -235,7 +241,9 @@ function renderizarEntradas(entradas) {
             crearElemento(
                 "li",
                 "vacio",
-                "Aún no hay entradas. Escribe la primera arriba."
+                haySesion
+                    ? "Aún no hay entradas. Escribe la primera arriba."
+                    : "Aún no hay entradas."
             )
         );
 
@@ -353,7 +361,11 @@ function renderizarEntradas(entradas) {
             );
         }
 
-        tarjeta.appendChild(acciones);
+        // Los botones de eliminar solo se agregan si hay sesión iniciada:
+        // el público ve la entrada, pero no puede tocarla
+        if (haySesion) {
+            tarjeta.appendChild(acciones);
+        }
 
         li.appendChild(tarjeta);
         previo.appendChild(li);
@@ -658,29 +670,59 @@ async function eliminarEntrada(entrada) {
 
 
 // ======================================================
-// 10. LOGIN: iniciar y cerrar sesión
+// 10. LOGIN: la bitácora es pública para VER;
+//     crear, editar y borrar solo con sesión iniciada
 // ======================================================
 
-// Muestra la bitácora y esconde el login
-function mostrarApp(sesion) {
+// Modo administrador: hay sesión
+function mostrarAdmin(sesion) {
+
+    haySesion = true;
 
     usuarioActual.textContent = "Sesión: " + sesion.user.email;
 
-    seccionLogin.hidden = true;   // esconde el login
-    seccionApp.hidden = false;    // muestra la bitácora
+    seccionLogin.hidden = true;    // esconde el login
+    seccionAdmin.hidden = false;   // muestra formulario y barra de sesión
+    btnAcceso.hidden = true;       // ya no hace falta el botón "Acceso"
 
-    cargarEntradas();             // ahora sí, trae las entradas
+    loginClave.value = "";         // borra la contraseña escrita
+
+    cargarEntradas();              // vuelve a dibujar, ahora con botones de eliminar
 }
 
 
-// Muestra el login y esconde la bitácora
-function mostrarLogin() {
+// Modo público: no hay sesión
+function mostrarPublico() {
 
-    seccionApp.hidden = true;
+    haySesion = false;
+
+    seccionAdmin.hidden = true;    // esconde formulario y barra de sesión
+    seccionLogin.hidden = true;    // esconde el login
+    btnAcceso.hidden = false;      // deja visible el botón "Acceso"
+
+    loginClave.value = "";
+
+    cargarEntradas();              // vuelve a dibujar, sin botones de eliminar
+}
+
+
+// Abre el formulario de login (botón discreto "Acceso")
+function abrirLogin() {
+
     seccionLogin.hidden = false;
+    btnAcceso.hidden = true;
 
-    previo.innerHTML = "";        // no deja entradas en pantalla
-    loginClave.value = "";        // borra la contraseña escrita
+    loginCorreo.focus();
+}
+
+
+// Cierra el formulario de login sin entrar
+function cancelarLogin() {
+
+    seccionLogin.hidden = true;
+    btnAcceso.hidden = false;
+
+    loginClave.value = "";
 }
 
 
@@ -721,7 +763,7 @@ async function iniciarSesion() {
         }
 
         // Si llegó aquí, Supabase aceptó los datos y devolvió una sesión
-        mostrarApp(data.session);
+        mostrarAdmin(data.session);
 
     } catch (error) {
 
@@ -734,7 +776,8 @@ async function iniciarSesion() {
 }
 
 
-// Se ejecuta al hacer clic en "Cerrar sesión"
+// Se ejecuta al hacer clic en "Cerrar sesión".
+// La pantalla se actualiza sola en onAuthStateChange (más abajo).
 async function cerrarSesion() {
 
     const { error } = await clienteSupabase.auth.signOut();
@@ -742,13 +785,12 @@ async function cerrarSesion() {
     if (error) {
         console.error("ERROR AL CERRAR SESIÓN:", error);
         mostrarMensaje("No se pudo cerrar la sesión: " + error.message, "error");
-        return;
     }
-
-    mostrarLogin();
 }
 
 
+btnAcceso.addEventListener("click", abrirLogin);
+btnCancelarLogin.addEventListener("click", cancelarLogin);
 btnLogin.addEventListener("click", iniciarSesion);
 btnSalir.addEventListener("click", cerrarSesion);
 
@@ -760,11 +802,11 @@ btnSalir.addEventListener("click", cerrarSesion);
 });
 
 
-// Si la sesión se cierra por otro lado (otra pestaña, o venció),
-// volvemos al login. Aquí no se llama a Supabase, solo se cambia la pantalla.
+// Si la sesión se cierra (botón, otra pestaña, o venció),
+// volvemos al modo público.
 clienteSupabase.auth.onAuthStateChange(function (evento) {
     if (evento === "SIGNED_OUT") {
-        mostrarLogin();
+        mostrarPublico();
     }
 });
 
@@ -773,6 +815,7 @@ clienteSupabase.auth.onAuthStateChange(function (evento) {
 // 10.1 INICIAR: ¿ya hay una sesión guardada?
 // Supabase guarda la sesión en el navegador, así que al
 // recargar la página no hay que volver a escribir la clave.
+// Sin sesión, igual se cargan las entradas (modo público).
 // ======================================================
 
 async function revisarSesion() {
@@ -780,9 +823,9 @@ async function revisarSesion() {
     const { data } = await clienteSupabase.auth.getSession();
 
     if (data.session) {
-        mostrarApp(data.session);
+        mostrarAdmin(data.session);
     } else {
-        mostrarLogin();
+        mostrarPublico();
     }
 }
 

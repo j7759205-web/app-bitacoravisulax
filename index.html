@@ -9,20 +9,20 @@
     <!-- Librería oficial de Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <title>Bitacora Visualx</title>
+    <title>Mi Experiencia</title>
 </head>
 
 <body class="body">
 
     <header class="header">
-        <p>Bitacora Visualx</p>
+        <p>Mi experiencia</p>
         <img class="img" src="visualx.png" alt="Logo">
     </header>
 
     <main class="main">
 
         <!-- ================= LOGIN =================
-             Empieza oculto (hidden). index.js decide si se muestra. -->
+             Empieza oculto (hidden). Aparece al pulsar "Acceso". -->
         <section
             class="panel panel-login"
             id="seccionLogin"
@@ -61,12 +61,21 @@
                 Entrar
             </button>
 
+            <!-- Cerrar el login sin entrar -->
+            <button
+                id="btnCancelarLogin"
+                type="button"
+                class="btn-secundario btn-ancho"
+            >
+                Cancelar
+            </button>
+
         </section>
 
 
-        <!-- ================= BITÁCORA =================
+        <!-- ================= ADMINISTRACIÓN =================
              Solo se muestra cuando hay una sesión iniciada. -->
-        <div class="app" id="seccionApp" hidden>
+        <div class="app" id="seccionAdmin" hidden>
 
             <!-- Usuario y cerrar sesión -->
             <div class="barra-sesion">
@@ -77,7 +86,7 @@
             </div>
 
 
-            <!-- PANEL 1: NUEVA ENTRADA -->
+            <!-- NUEVA ENTRADA -->
             <section class="panel" aria-labelledby="titulo-nueva">
 
                 <h2 class="panel-titulo" id="titulo-nueva">Nueva entrada</h2>
@@ -127,20 +136,28 @@
 
             </section>
 
-
-            <!-- PANEL 2: HISTORIAL -->
-            <section class="panel" aria-labelledby="titulo-historial">
-
-                <h2 class="panel-titulo" id="titulo-historial">Historial</h2>
-
-                <!-- Las entradas las dibuja index.js aquí -->
-                <ol id="vistaPrevia" class="linea-tiempo"></ol>
-
-            </section>
-
         </div>
 
+
+        <!-- ================= HISTORIAL (PÚBLICO) =================
+             Lo ve todo el mundo, haya o no sesión. -->
+        <section class="panel" aria-labelledby="titulo-historial">
+
+            <h2 class="panel-titulo" id="titulo-historial">Historial</h2>
+
+            <!-- Las entradas las dibuja index.js aquí -->
+            <ol id="vistaPrevia" class="linea-tiempo"></ol>
+
+        </section>
+
     </main>
+
+    <!-- Pie de página: botón discreto para entrar como administrador -->
+    <footer class="pie">
+        <button id="btnAcceso" type="button" class="btn-enlace">
+            Acceso
+        </button>
+    </footer>
 
     <!-- Aviso flotante (lo llena index.js). Sin espacios dentro, para que :empty funcione -->
     <p id="mensaje" role="status" aria-live="polite"></p>
