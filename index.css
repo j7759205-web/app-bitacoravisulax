@@ -1,0 +1,884 @@
+
+
+/* =====================================================
+   1. CONFIGURACIÓN GENERAL
+===================================================== */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+
+/* =====================================================
+   2. BODY
+===================================================== */
+
+.body {
+    min-height: 100vh;
+    padding: 30px 20px 60px;
+
+    background:
+        radial-gradient(
+            circle at top left,
+            rgba(76, 201, 240, 0.25),
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at bottom right,
+            rgba(114, 9, 183, 0.22),
+            transparent 35%
+        ),
+        linear-gradient(
+            135deg,
+            #0f172a,
+            #172554,
+            #312e81
+        );
+
+    color: #f8fafc;
+}
+
+
+/* =====================================================
+   3. HEADER
+===================================================== */
+
+.header {
+    width: min(900px, 100%);
+    margin: 0 auto 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 20px 25px;
+
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+
+    border-radius: 20px;
+
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+}
+
+/* Título */
+
+.header p {
+    font-size: clamp(24px, 5vw, 36px);
+    font-weight: 700;
+    letter-spacing: -1px;
+
+    background: linear-gradient(
+        90deg,
+        #67e8f9,
+        #a78bfa
+    );
+
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+/* Logo */
+
+.img {
+    width: 90px;
+    height: 90px;
+
+    object-fit: contain;
+
+    border-radius: 16px;
+
+    background: rgba(255, 255, 255, 0.1);
+
+    padding: 8px;
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.img:hover {
+    transform: rotate(-4deg) scale(1.06);
+
+    box-shadow: 0 10px 25px rgba(103, 232, 249, 0.25);
+}
+
+
+/* =====================================================
+   4. LAYOUT PRINCIPAL Y PANELES
+   .main ordena los paneles; .panel es cada tarjeta de vidrio
+===================================================== */
+
+.main {
+    width: min(900px, 100%);
+    margin: 0 auto;
+
+    display: grid;
+    gap: 24px;
+}
+
+.panel {
+    padding: 30px;
+
+    background: rgba(255, 255, 255, 0.08);
+
+    border: 1px solid rgba(255, 255, 255, 0.14);
+
+    border-radius: 24px;
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.panel-titulo {
+    margin-bottom: 20px;
+
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+
+    color: #f1f5f9;
+}
+
+
+/* =====================================================
+   4.1 LOGIN Y BARRA DE SESIÓN
+===================================================== */
+
+/* Un elemento con el atributo hidden se esconde,
+   aunque su clase le pida display: grid o flex */
+
+[hidden] {
+    display: none !important;
+}
+
+/* Tarjeta del login: más angosta y centrada */
+
+.panel-login {
+    width: min(460px, 100%);
+    margin: 0 auto;
+}
+
+/* Contenedor de la bitácora (se muestra al iniciar sesión) */
+
+.app {
+    display: grid;
+    gap: 24px;
+}
+
+/* Barra con el usuario y el botón de cerrar sesión */
+
+.barra-sesion {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    padding: 0 6px;
+
+    font-size: 14px;
+
+    color: #94a3b8;
+}
+
+.btn-secundario {
+    padding: 8px 16px;
+
+    border: 1px solid rgba(103, 232, 249, 0.5);
+
+    border-radius: 12px;
+
+    background: transparent;
+
+    color: #67e8f9;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.btn-secundario:hover {
+    background: rgba(103, 232, 249, 0.1);
+
+    border-color: #67e8f9;
+}
+
+
+/* =====================================================
+   5. FORMULARIO
+===================================================== */
+
+.campo {
+    margin-bottom: 18px;
+}
+
+.campo label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    color: #cbd5e1;
+}
+
+.campo-ayuda {
+    display: block;
+
+    margin-top: 6px;
+
+    font-size: 12.5px;
+
+    color: #94a3b8;
+}
+
+/* Campos de texto */
+
+.input {
+    width: 100%;
+
+    padding: 15px 18px;
+
+    border: 1px solid rgba(255, 255, 255, 0.15);
+
+    border-radius: 14px;
+
+    background: rgba(15, 23, 42, 0.65);
+
+    color: white;
+
+    font-size: 16px;
+
+    outline: none;
+
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.input::placeholder {
+    color: #94a3b8;
+}
+
+.input:focus {
+    border-color: #67e8f9;
+
+    box-shadow: 0 0 0 3px rgba(103, 232, 249, 0.12);
+}
+
+/* Selector de archivo */
+
+input[type="file"] {
+    width: 100%;
+
+    padding: 12px;
+
+    border: 1px dashed rgba(103, 232, 249, 0.5);
+
+    border-radius: 14px;
+
+    background: rgba(15, 23, 42, 0.45);
+
+    color: #cbd5e1;
+
+    cursor: pointer;
+
+    transition:
+        background 0.25s ease,
+        border-color 0.25s ease;
+}
+
+input[type="file"]:hover {
+    background: rgba(103, 232, 249, 0.08);
+
+    border-color: #67e8f9;
+}
+
+/* Botón interno del selector */
+
+input[type="file"]::file-selector-button {
+    margin-right: 12px;
+
+    padding: 9px 14px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: linear-gradient(
+        135deg,
+        #06b6d4,
+        #6366f1
+    );
+
+    color: white;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: transform 0.2s ease;
+}
+
+input[type="file"]::file-selector-button:hover {
+    transform: translateY(-1px);
+}
+
+/* Botón principal */
+
+.boton {
+    width: 100%;
+
+    padding: 14px 20px;
+
+    border: none;
+
+    border-radius: 14px;
+
+    background: linear-gradient(
+        135deg,
+        #06b6d4,
+        #6366f1
+    );
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        opacity 0.2s ease;
+}
+
+.boton:hover {
+    transform: translateY(-2px);
+
+    box-shadow: 0 12px 28px rgba(79, 70, 229, 0.4);
+}
+
+.boton:active {
+    transform: translateY(0);
+}
+
+/* Mientras se está guardando, JS desactiva el botón */
+
+.boton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+
+    transform: none;
+}
+
+
+/* =====================================================
+   6. AVISO FLOTANTE (el texto lo pone index.js)
+   Siempre se ve, aunque estés abajo en el historial
+===================================================== */
+
+#mensaje {
+    position: fixed;
+    left: 50%;
+    bottom: 24px;
+    transform: translateX(-50%);
+
+    z-index: 900;
+
+    max-width: min(92vw, 560px);
+
+    padding: 12px 18px;
+
+    background: rgba(15, 23, 42, 0.92);
+
+    border: 1px solid rgba(103, 232, 249, 0.35);
+
+    border-radius: 14px;
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+
+    color: #67e8f9;
+}
+
+/* Sin texto, no se muestra */
+
+#mensaje:empty {
+    display: none;
+}
+
+#mensaje.error {
+    color: #fca5a5;
+
+    border-color: rgba(252, 165, 165, 0.45);
+}
+
+#mensaje.exito {
+    color: #86efac;
+
+    border-color: rgba(134, 239, 172, 0.45);
+}
+
+
+/* =====================================================
+   7. HISTORIAL: LÍNEA DE TIEMPO
+   Variables: --sangria = espacio a la izquierda,
+              --eje = distancia de la línea al borde
+===================================================== */
+
+.linea-tiempo {
+    --sangria: 30px;
+    --eje: 8px;
+
+    position: relative;
+
+    list-style: none;
+
+    padding-left: var(--sangria);
+}
+
+/* Línea vertical */
+
+.linea-tiempo::before {
+    content: "";
+
+    position: absolute;
+    top: 8px;
+    bottom: 8px;
+    left: calc(var(--eje) - 1px);
+
+    width: 2px;
+
+    border-radius: 2px;
+
+    background: linear-gradient(
+        to bottom,
+        #67e8f9,
+        #a78bfa
+    );
+
+    opacity: 0.5;
+}
+
+/* Si no hay entradas, no se dibuja la línea */
+
+.linea-tiempo.vacia::before {
+    display: none;
+}
+
+.linea-tiempo.vacia {
+    padding-left: 0;
+}
+
+.vacio {
+    padding: 24px 0;
+
+    text-align: center;
+
+    color: #94a3b8;
+}
+
+
+/* =====================================================
+   8. CADA ENTRADA
+===================================================== */
+
+.entrada {
+    position: relative;
+
+    margin-bottom: 18px;
+}
+
+.entrada:last-child {
+    margin-bottom: 0;
+}
+
+/* Punto sobre la línea */
+
+.entrada::before {
+    content: "";
+
+    position: absolute;
+    top: 20px;
+    left: calc(var(--eje) - var(--sangria) - 7px);
+
+    width: 14px;
+    height: 14px;
+
+    border-radius: 50%;
+
+    background: linear-gradient(
+        135deg,
+        #67e8f9,
+        #a78bfa
+    );
+
+    box-shadow: 0 0 0 4px rgba(103, 232, 249, 0.15);
+}
+
+.entrada-tarjeta {
+    padding: 16px;
+
+    background: rgba(15, 23, 42, 0.5);
+
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    border-radius: 18px;
+
+    transition: border-color 0.25s ease;
+}
+
+.entrada-tarjeta:hover {
+    border-color: rgba(103, 232, 249, 0.35);
+}
+
+/* Fecha y hora */
+
+.entrada-fecha {
+    display: block;
+
+    margin-bottom: 12px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    color: #94a3b8;
+}
+
+/* Fila con imagen, video y texto */
+
+.entrada-cuerpo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+/* Imagen */
+
+.entrada-imagen {
+    width: 150px;
+    height: 150px;
+
+    object-fit: cover;
+
+    border-radius: 14px;
+
+    border: 1px solid rgba(255, 255, 255, 0.15);
+
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+
+    cursor: zoom-in;
+
+    transition:
+        transform 0.3s ease,
+        filter 0.3s ease;
+}
+
+.entrada-imagen:hover {
+    transform: scale(1.04);
+
+    filter: brightness(1.08);
+}
+
+/* Video de YouTube */
+
+.entrada-video {
+    width: min(100%, 360px);
+
+    aspect-ratio: 16 / 9;
+
+    overflow: hidden;
+
+    border-radius: 14px;
+
+    background: #000;
+}
+
+.entrada-video iframe {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    border: 0;
+}
+
+/* Descripción */
+
+.entrada-texto {
+    flex: 1 1 220px;
+
+    min-width: 0;
+
+    font-size: 15px;
+    line-height: 1.55;
+
+    color: #e2e8f0;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* =====================================================
+   9. BOTONES DE ELIMINAR
+===================================================== */
+
+.entrada-acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    margin-top: 14px;
+    padding-top: 12px;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.btn-eliminar {
+    padding: 6px 12px;
+
+    border: 1px solid rgba(252, 165, 165, 0.4);
+
+    border-radius: 10px;
+
+    background: transparent;
+
+    color: #fca5a5;
+
+    font-size: 13px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.btn-eliminar:hover {
+    background: rgba(248, 113, 113, 0.12);
+
+    border-color: rgba(252, 165, 165, 0.8);
+}
+
+/* "Eliminar entrada completa" se ve un poco más fuerte */
+
+.btn-eliminar--todo {
+    background: rgba(248, 113, 113, 0.15);
+
+    border-color: rgba(252, 165, 165, 0.7);
+}
+
+
+/* =====================================================
+   10. ACCESIBILIDAD: borde visible al navegar con teclado
+===================================================== */
+
+.boton:focus-visible,
+.btn-secundario:focus-visible,
+.btn-eliminar:focus-visible,
+input[type="file"]:focus-visible,
+#btnCerrarModal:focus-visible {
+    outline: 2px solid #67e8f9;
+    outline-offset: 3px;
+}
+
+
+/* =====================================================
+   11. VISOR MAXIMIZADO DE IMÁGENES
+===================================================== */
+
+.modal-oculto {
+    display: none; /* Invisible por defecto */
+
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    background-color: rgba(0, 0, 0, 0.85);
+
+    justify-content: center;
+    align-items: center;
+
+    z-index: 1000;
+}
+
+/* Cuando JS le pone la clase "activo", se muestra */
+
+.modal-oculto.activo {
+    display: flex;
+}
+
+#imagenMaximizada {
+    max-width: 90%;
+    max-height: 90%;
+
+    border-radius: 8px;
+
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+
+    object-fit: contain;
+}
+
+#btnCerrarModal {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+
+    padding: 0;
+
+    border: none;
+
+    background: none;
+
+    color: white;
+
+    font-size: 40px;
+    font-weight: bold;
+    line-height: 1;
+
+    cursor: pointer;
+}
+
+
+/* =====================================================
+   12. RESPONSIVE - CELULAR
+===================================================== */
+
+@media (max-width: 600px) {
+
+    .body {
+        padding: 15px 12px 40px;
+    }
+
+    .header {
+        padding: 16px 18px;
+
+        margin-bottom: 18px;
+
+        border-radius: 18px;
+    }
+
+    .header p {
+        font-size: 25px;
+    }
+
+    .img {
+        width: 52px;
+        height: 52px;
+    }
+
+    .main,
+    .app {
+        gap: 18px;
+    }
+
+    .panel {
+        padding: 20px 16px;
+
+        border-radius: 20px;
+    }
+
+    .linea-tiempo {
+        --sangria: 22px;
+        --eje: 6px;
+    }
+
+    .entrada-tarjeta {
+        padding: 14px;
+    }
+
+    .entrada-imagen {
+        width: 100%;
+        height: auto;
+        max-height: 300px;
+    }
+
+    .entrada-video {
+        width: 100%;
+    }
+
+    .entrada-texto {
+        flex-basis: 100%;
+    }
+
+    #mensaje {
+        bottom: 16px;
+    }
+}
+
+
+/* =====================================================
+   13. ANIMACIÓN DE ENTRADA
+===================================================== */
+
+.header,
+.main {
+    animation: aparecer 0.7s ease both;
+}
+
+.main {
+    animation-delay: 0.1s;
+}
+
+@keyframes aparecer {
+
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Si la persona pidió menos animaciones en su dispositivo, se respetan */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}

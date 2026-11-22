@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="index.css">
+
+    <!-- Librería oficial de Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <title>Bitacora Visualx</title>
+</head>
+
+<body class="body">
+
+    <header class="header">
+        <p>Bitacora Visualx</p>
+        <img class="img" src="visualx.png" alt="Logo">
+    </header>
+
+    <main class="main">
+
+        <!-- ================= LOGIN =================
+             Empieza oculto (hidden). index.js decide si se muestra. -->
+        <section
+            class="panel panel-login"
+            id="seccionLogin"
+            aria-labelledby="titulo-login"
+            hidden
+        >
+
+            <h2 class="panel-titulo" id="titulo-login">Iniciar sesión</h2>
+
+            <!-- Correo -->
+            <div class="campo">
+                <label for="loginCorreo">Correo</label>
+                <input
+                    type="email"
+                    id="loginCorreo"
+                    class="input"
+                    placeholder="tucorreo@ejemplo.com"
+                    autocomplete="username"
+                >
+            </div>
+
+            <!-- Contraseña -->
+            <div class="campo">
+                <label for="loginClave">Contraseña</label>
+                <input
+                    type="password"
+                    id="loginClave"
+                    class="input"
+                    placeholder="Tu contraseña"
+                    autocomplete="current-password"
+                >
+            </div>
+
+            <!-- Botón de entrar -->
+            <button id="btnLogin" type="button" class="boton">
+                Entrar
+            </button>
+
+        </section>
+
+
+        <!-- ================= BITÁCORA =================
+             Solo se muestra cuando hay una sesión iniciada. -->
+        <div class="app" id="seccionApp" hidden>
+
+            <!-- Usuario y cerrar sesión -->
+            <div class="barra-sesion">
+                <span id="usuarioActual"></span>
+                <button id="btnSalir" type="button" class="btn-secundario">
+                    Cerrar sesión
+                </button>
+            </div>
+
+
+            <!-- PANEL 1: NUEVA ENTRADA -->
+            <section class="panel" aria-labelledby="titulo-nueva">
+
+                <h2 class="panel-titulo" id="titulo-nueva">Nueva entrada</h2>
+
+                <!-- Descripción -->
+                <div class="campo">
+                    <label for="observacion">Descripción</label>
+                    <input
+                        type="text"
+                        id="observacion"
+                        class="input"
+                        placeholder="Escribe una observación..."
+                    >
+                </div>
+
+                <!-- Enlace de YouTube (opcional) -->
+                <div class="campo">
+                    <label for="videoLink">Video de YouTube (opcional)</label>
+                    <input
+                        type="url"
+                        id="videoLink"
+                        class="input"
+                        placeholder="https://www.youtube.com/watch?v=..."
+                    >
+                    <small class="campo-ayuda">
+                        Súbelo a YouTube como «No listado» y pega aquí el enlace.
+                    </small>
+                </div>
+
+                <!-- Imagen (opcional) -->
+                <div class="campo">
+                    <label for="imagen">Imagen (opcional)</label>
+                    <input
+                        type="file"
+                        id="imagen"
+                        accept="image/*"
+                    >
+                    <small class="campo-ayuda">
+                        Máximo 10 MB. Se comprime antes de subirse.
+                    </small>
+                </div>
+
+                <!-- Botón de guardar -->
+                <button id="btnGuardar" type="button" class="boton">
+                    Guardar entrada
+                </button>
+
+            </section>
+
+
+            <!-- PANEL 2: HISTORIAL -->
+            <section class="panel" aria-labelledby="titulo-historial">
+
+                <h2 class="panel-titulo" id="titulo-historial">Historial</h2>
+
+                <!-- Las entradas las dibuja index.js aquí -->
+                <ol id="vistaPrevia" class="linea-tiempo"></ol>
+
+            </section>
+
+        </div>
+
+    </main>
+
+    <!-- Aviso flotante (lo llena index.js). Sin espacios dentro, para que :empty funcione -->
+    <p id="mensaje" role="status" aria-live="polite"></p>
+
+    <!-- Pantalla completa para maximizar imágenes -->
+    <div id="modalImagen" class="modal-oculto">
+        <button id="btnCerrarModal" type="button" aria-label="Cerrar">&times;</button>
+        <img id="imagenMaximizada" alt="Imagen ampliada">
+    </div>
+
+    <!-- Cargar index.js UNA SOLA VEZ -->
+    <script src="index.js"></script>
+
+</body>
+</html>
